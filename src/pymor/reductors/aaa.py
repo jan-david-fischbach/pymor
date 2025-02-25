@@ -138,7 +138,7 @@ class PAAAReductor(BasicObject):
 
         self.__auto_init(locals())
 
-    def reduce(self, tol=1e-7, itpl_part=None, max_itpl=None):
+    def reduce(self, tol=1e-7, itpl_part=None, max_itpl=None, return_bary_repr=False):
         """Reduce using p-AAA.
 
         Parameters
@@ -256,6 +256,9 @@ class PAAAReductor(BasicObject):
             itpl_samples = self.MIMO_samples[np.ix_(*self.itpl_part)]
             itpl_samples = np.reshape(itpl_samples, (-1, self._dim_output, self._dim_input))
 
+        if return_bary_repr:
+            return itpl_nodes, itpl_samples, coefs
+        
         bary_func = make_bary_func(itpl_nodes, itpl_samples, coefs)
 
         if self.num_vars > 1:
